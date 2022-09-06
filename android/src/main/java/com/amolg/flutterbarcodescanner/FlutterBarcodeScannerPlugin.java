@@ -48,6 +48,7 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
     public static String lineColor = "";
     public static boolean isShowFlashIcon = false;
     public static boolean isContinuousScan = false;
+    public static int defaultCamera = 0;
     static EventChannel.EventSink barcodeStream;
     private EventChannel eventChannel;
 
@@ -100,6 +101,15 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
                 arguments = (Map<String, Object>) call.arguments;
                 lineColor = (String) arguments.get("lineColor");
                 isShowFlashIcon = (boolean) arguments.get("isShowFlashIcon");
+
+                if(null != arguments.get("defaultCamera")) {
+                    if((int) arguments.get("defaultCamera") == BarcodeCaptureActivity.DEFAULT_OPEN_CAMERA.BACK.ordinal()) {
+                        BarcodeCaptureActivity.DEFAULT_INIT_CAMERA = 0;
+                    } else {
+                        BarcodeCaptureActivity.DEFAULT_INIT_CAMERA = 1;
+                    }
+                }
+
                 if (null == lineColor || lineColor.equalsIgnoreCase("")) {
                     lineColor = "#DC143C";
                 }

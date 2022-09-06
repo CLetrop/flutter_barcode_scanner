@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 /// Scan mode which is either QR code or BARCODE
 enum ScanMode { QR, BARCODE, DEFAULT }
+enum DefaultCamera { FRONT, BACK}
 
 /// Provides access to the barcode scanner.
 ///
@@ -24,7 +25,7 @@ class FlutterBarcodeScanner {
   /// displayed if [isShowFlashIcon] is true. The text of the cancel button can
   /// be customized with the [cancelButtonText] string.
   static Future<String> scanBarcode(String lineColor, String cancelButtonText,
-      bool isShowFlashIcon, ScanMode scanMode) async {
+      bool isShowFlashIcon, ScanMode scanMode, DefaultCamera defaultCamera) async {
     if (cancelButtonText.isEmpty) {
       cancelButtonText = 'Cancel';
     }
@@ -35,6 +36,7 @@ class FlutterBarcodeScanner {
       'cancelButtonText': cancelButtonText,
       'isShowFlashIcon': isShowFlashIcon,
       'isContinuousScan': false,
+      'defaultCamera': defaultCamera.index,
       'scanMode': scanMode.index
     };
 
