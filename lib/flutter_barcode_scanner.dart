@@ -17,7 +17,7 @@ class FlutterBarcodeScanner {
   static const EventChannel _eventChannel =
       EventChannel('flutter_barcode_scanner_receiver');
 
-  static Stream? _onBarcodeReceiver;
+  static Stream? onBarcodeReceiver;
 
   /// Scan with the camera until a barcode is identified, then return.
   ///
@@ -71,7 +71,7 @@ class FlutterBarcodeScanner {
     // Invoke method to open camera, and then create an event channel which will
     // return a stream
     _channel.invokeMethod('scanBarcode', params);
-    _onBarcodeReceiver ??= _eventChannel.receiveBroadcastStream();
-    return _onBarcodeReceiver;
+    onBarcodeReceiver ??= _eventChannel.receiveBroadcastStream();
+    return onBarcodeReceiver;
   }
 }

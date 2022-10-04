@@ -1,8 +1,9 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_barcode_scanner_fork/flutter_barcode_scanner.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,6 +14,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _scanBarcode = 'Unknown';
+  bool isContinouosScan = true;
 
   @override
   void initState() {
@@ -23,7 +25,8 @@ class _MyAppState extends State<MyApp> {
     FlutterBarcodeScanner.getBarcodeStreamReceiver(
             '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
         .listen((barcode) {
-          print(barcode);
+          print('$barcode patito');
+
         });
   }
 
