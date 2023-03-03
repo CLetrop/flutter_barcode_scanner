@@ -28,14 +28,6 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -45,6 +37,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.amolg.flutterbarcodescanner.camera.CameraSource;
 import com.amolg.flutterbarcodescanner.camera.CameraSourcePreview;
@@ -55,9 +50,9 @@ import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 
 /**
  * Activity for the multi-tracker app.  This app detects barcodes and displays the value with the
@@ -65,6 +60,8 @@ import java.lang.reflect.Method;
  * size, and ID of each barcode.
  */
 public final class BarcodeCaptureActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener, View.OnClickListener {
+
+    public static Activity fa;
 
     // intent request code to handle updating play services if needed.
     private static final int RC_HANDLE_GMS = 9001;
@@ -115,6 +112,8 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        fa = this;
+
         try {
             setContentView(R.layout.barcode_capture);
 

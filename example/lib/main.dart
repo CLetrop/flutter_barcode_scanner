@@ -15,10 +15,17 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _scanBarcode = 'Unknown';
   bool isContinouosScan = true;
+  Timer? timer;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
   }
 
   Future<void> startBarcodeScanStream() async {
@@ -56,9 +63,15 @@ class _MyAppState extends State<MyApp> {
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
+      timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
+        await FlutterBarcodeScanner.stopScan();
+      });
+
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.BARCODE, DefaultCamera.FRONT);
       print(barcodeScanRes);
+
+
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }

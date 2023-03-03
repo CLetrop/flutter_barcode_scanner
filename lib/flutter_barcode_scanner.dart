@@ -74,4 +74,10 @@ class FlutterBarcodeScanner {
     onBarcodeReceiver ??= _eventChannel.receiveBroadcastStream();
     return onBarcodeReceiver;
   }
+
+
+  /// Stop scan
+  static Future<void> stopScan() async {
+    await _channel.invokeMethod('stopScan');
+  }
 }

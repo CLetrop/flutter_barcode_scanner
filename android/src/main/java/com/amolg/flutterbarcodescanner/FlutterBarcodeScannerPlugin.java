@@ -2,6 +2,7 @@ package com.amolg.flutterbarcodescanner;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -62,6 +63,8 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
     private FlutterPluginBinding pluginBinding;
     private ActivityPluginBinding activityBinding;
     private Application applicationContext;
+    private Context context;
+    private Activity activityCurrent;
     // This is null when not using v2 embedding;
     private Lifecycle lifecycle;
     private LifeCycleObserver observer;
@@ -71,6 +74,7 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
 
     private FlutterBarcodeScannerPlugin(FlutterActivity activity, final PluginRegistry.Registrar registrar) {
         FlutterBarcodeScannerPlugin.activity = activity;
+        activityCurrent = activity;
     }
 
     /**
@@ -127,6 +131,10 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
 
                 startBarcodeScannerActivityView((String) arguments.get("cancelButtonText"), isContinuousScan);
             }
+
+            if(call.method.equals("stopScan")) {
+                BarcodeCaptureActivity.fa.finish();
+            }
         } catch (Exception e) {
             Log.e(TAG, "onMethodCall: " + e.getLocalizedMessage());
         }
@@ -135,6 +143,7 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
     private void startBarcodeScannerActivityView(String buttonText, boolean isContinuousScan) {
         try {
             Intent intent = new Intent(activity, BarcodeCaptureActivity.class).putExtra("cancelButtonText", buttonText);
+
             if (isContinuousScan) {
                 activity.startActivity(intent);
             } else {
@@ -220,6 +229,7 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
     @Override
     public void onAttachedToEngine(FlutterPluginBinding binding) {
         pluginBinding = binding;
+        context = binding.getApplicationContext();
     }
 
     @Override
@@ -281,6 +291,7 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
 
     @Override
     public void onAttachedToActivity(ActivityPluginBinding binding) {
+        activityCurrent = binding.getActivity();
         activityBinding = binding;
         createPluginSetup(
                 pluginBinding.getBinaryMessenger(),

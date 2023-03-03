@@ -125,7 +125,7 @@ public class CameraSource {
      */
     public static class Builder {
         private final Detector<?> mDetector;
-        private CameraSource mCameraSource = new CameraSource();
+        private final CameraSource mCameraSource = new CameraSource();
 
         /**
          * Creates a camera source builder with the supplied context and detector.  Camera preview
